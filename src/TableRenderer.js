@@ -1,5 +1,6 @@
 import { PivotData } from './helper/utils'
 import defaultProps from './helper/common'
+
 function redColorScaleGenerator (values) {
   const min = Math.min.apply(Math, values)
   const max = Math.max.apply(Math, values)
@@ -79,7 +80,7 @@ function makeRenderer (opts = {}) {
         return len
       }
     },
-    render (h) {
+    render(h) {
       let pivotData = null
       try {
         pivotData = new PivotData(this.$props)
@@ -258,16 +259,27 @@ function makeRenderer (opts = {}) {
 
                 colKeys.map((colKey, j) => {
                   const aggregator = pivotData.getAggregator(rowKey, colKey)
+                  const aggrVal = aggregator.value()
+                  let tooltip = this.tooltip({ rowKey, colKey })
                   return h('td', {
                     staticClass: ['pvVal'],
-                    style: valueCellColors(rowKey, colKey, aggregator.value()),
+                    style: valueCellColors(rowKey, colKey, aggrVal),
                     attrs: {
-                      key: `pvtVal${i}-${j}`
+                      key: `pvtVal${i}-${j}`,
                     },
                     on: getClickHandler ? {
-                      click: getClickHandler(aggregator.value(), rowKey, colKey)
+                      click: getClickHandler(aggrVal, rowKey, colKey)
                     } : {}
-                  }, aggregator.format(aggregator.value()))
+                  }, [ isNaN(aggrVal) && this.enableTooltip ?
+                    h('span', {
+                      staticClass: [`pvtValTooltip pvtValTooltip--${this.tooltipPosition}`],
+                      attrs: {
+                        key: `pvtValTooltip${i}-${j}`,
+                        'data-tooltip': `${tooltip}`,
+                      },
+                    }, !isNaN(aggrVal) ? aggregator.format(aggrVal) : 'N/A')
+                    : !isNaN(aggrVal) ? aggregator.format(aggrVal) : 'N/A'
+                  ])
                 }),
 
                 this.rowTotal ? h('td', {

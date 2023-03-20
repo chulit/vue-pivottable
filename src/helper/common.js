@@ -155,6 +155,20 @@ export default {
       validator: function (value) {
         return value >= 0
       }
+    },
+    enableTooltip: {
+      type: Boolean,
+      default: false
+    },
+    tooltipPosition: {
+      type: String,
+      default: 'left'
+    },
+    tooltip: {
+      type: Function,
+      default: function (val) {
+        return `${val.colKey[0]}`
+      }
     }
   },
   methods: {
