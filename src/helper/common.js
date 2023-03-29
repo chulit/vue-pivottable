@@ -160,6 +160,10 @@ export default {
       type: Boolean,
       default: false
     },
+    tooltipAll: {
+      type: Boolean,
+      default: false
+    },
     tooltipPosition: {
       type: String,
       default: 'left'
