@@ -270,7 +270,7 @@ function makeRenderer (opts = {}) {
                     on: getClickHandler ? {
                       click: getClickHandler(aggrVal, rowKey, colKey)
                     } : {}
-                  }, [ isNaN(aggrVal) && this.enableTooltip ?
+                  }, [ this.enableTooltip ?
                     h('span', {
                       staticClass: [`pvtValTooltip pvtValTooltip--${this.tooltipPosition}`],
                       attrs: {
