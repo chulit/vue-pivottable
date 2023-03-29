@@ -260,7 +260,7 @@ function makeRenderer (opts = {}) {
                 colKeys.map((colKey, j) => {
                   const aggregator = pivotData.getAggregator(rowKey, colKey)
                   const aggrVal = aggregator.value()
-                  let tooltip = this.tooltip({ rowKey, colKey })
+                  let tooltip = this.tooltip({ rowKey, colKey, aggrVal })
                   return h('td', {
                     staticClass: ['pvVal'],
                     style: valueCellColors(rowKey, colKey, aggrVal),
